@@ -145,7 +145,7 @@
 * **Answer 4.3**
 
     ``` SML
-      fun x ** y = 
+    fun x ** y =
     case (length x, length y)
       (* notice that we need to return empty() when result = 0. *)
       of (0, _) => empty ()
