@@ -1,9 +1,5 @@
 # Lab3 - 大数运算实验
 
-[TOC]
-
-***
-
 ## 1. 实验要求
 
 &#12288;&#12288;实现n位二进制大整数的加法运算。输入a, b和输出s都是二进制位的串。要求算法的时间复杂度满足$work=O(n), span=O(log n)$。
@@ -37,7 +33,7 @@
     $$\because pq+rs=(p+q)*(r+s)-pr-qs$$
     $$\therefore x*y = pr*2^{2m}+((p+q)*(r+s)-pr-qs)*2^{m}+qs\tag{1}$$
     3. 并行递归，分别计算出$(p+q)*(r+s), p*r, q*s$
-    4. 由$(1)$式，可根据三个递归结果计算出x*y
+    4. 由$(1)$式，可根据三个递归结果计算出$x*y$
 
 ## 3. 回答问题
 
@@ -196,7 +192,7 @@
         end
     ```
 
-### 3.4迭代计算复杂度分析
+### 3.4 迭代计算复杂度分析
 
 * *Task 5.1 (15%)*. Determine the complexity of the following recurrences. Give tight $\Theta-bounds$, and justify your steps to argue that your bound is correct. Recall that $f\in\Theta(g)$ if and only if $f\in\mathcal{O}(g)$ and $g\in\mathcal{O}(f)$. You may use any method (brick method, tree method, or substitution) to show that yourbound is correct, except that you must use the substitution method for problem 3.
     1. $T(n) = 3T(\frac {n}{2}) + \Theta(n)$
@@ -205,6 +201,41 @@
 
 * **Answer 5.1**
 
-    1. 1
-    2. 2
-    3. 3
+    1. $T(n) = \Theta(n^{\log_{2}{3} })$. Using Tree Method.
+        1. Obviously the height $h$ can be calculated from ${(\frac{1}{2})}^{h}*n = 1$, then we have:
+        $$h = \log_{2}{(n)} \tag{1}$$
+        2. Each floor $i$ has $3^{i}*\Theta(\frac {n}{2^i})$, and the sum is shown in the following.
+        $$T(n) = \sum \limits_ {i = 0}^{h}{(3^{i}*\Theta(\frac {n}{2^i}))} = \sum \limits_ {i = 0}^{h}{(\Theta(n*(\frac {3}{2})^i))} = \Theta(n*\sum\limits_{i=0}^{h}{(\frac {3}{2})^i)} \tag{2}$$
+        3. With $(1)$ and $(2)$, we can get the result:
+        $$T(n) = \Theta(n*{\frac{1*{(1-{(\frac{3}{2})^{h-1} })} }{1-{\frac{3}{2} } } }) = \Theta(n*2*{((\frac{3}{2})^{h-1}-1) })$$
+        $$\therefore T(n) = \Theta(n*{(\frac{3}{2})^{\log_{2}{n} } }) = \Theta(n*\frac{3^{\log_{2}{n} } }{2^{\log_{2}{n} } }) = \Theta(3^{log_{2}{n} })$$
+        $$\therefore T(n) = \Theta(3^{\frac{log_{3}{n} }{log_{3}{2} } }) = \Theta(n^{\frac{1}{\log_{3}{2} } }) = \Theta(n^{\log_{2}{3} })$$
+    2. $T(n) = \sqrt{n}*{\log_{4}{n} }$. Using Tree Method.
+        1. Similar to the last problem, we have the height.
+        $$h = \log_{4}{n} \tag{3}$$
+        2. Each floor $i$ has $2^{i}*\Theta(\sqrt{\frac{n}{4^{i} } }) = \Theta(\sqrt{n})$, sum up all floors:
+        $$T(n) = \sum \limits_{i=0}^{h}{\Theta(\sqrt{n})} \tag{4}$$
+        3. With $(1)$ and $(2)$, we can get the result:
+        $$T(n) = \Theta(\sqrt{n}*\log_{4}{n})$$
+    3. $T(n) = \Theta(n)$. Using Substitution method.
+        1. we need to prove that given a constant $k_{1}$, there exists a variable $k_{2_i}$, while $n \leq T(n) \leq k_{1}n + k_{2_n}\sqrt{n}$, $k_{2_n} \leq \sqrt{n}-1$
+        2. (Base case)When $n = 1$, we have:
+        $$\exists k_{2_1} \leq 0,1 \leq T(1) = 1 \leq k_{1}*1 + k_{2_1}*1 \tag{5}$$
+        3. (Induction)Assume whenever $n \leq \frac{k}{4}$, we have:
+        $$\exists k_{2_n} \leq \sqrt{n}-1, n \leq W(n) \leq k_{1}*n + k_{2_n}*\sqrt{n} \tag{6}$$
+        4. Which means:
+        $$\forall i <= \frac{k}{2}, \exists k_{2_i} \leq \sqrt{i}-1, i \leq W(i) \leq k_{1}*i + k_{2_i}*\sqrt{i}, \tag{7}$$
+        $$\therefore \exists k_{2_{\frac {k}{4} } } \leq \frac{\sqrt{k} }{2} -1, \frac {k}{4} \leq W(\frac {k}{4}) \leq k_{1}*\frac{k}{4} + k_{2_{\frac{k}{4} } }*\frac{\sqrt{k} }{2}, \tag{8}$$
+        5. Then:
+        $$\because W(k) = 4W(\frac {k}{4}) + \sqrt{k}*\Theta(1), \because (8)$$
+        $$\therefore 4*\frac{k}{4} \leq W(k) \leq 4*k_{1}*\frac{k}{4} + 4*k_{2_{\frac{k}{4} } }*\frac{\sqrt{k} }{2}+\sqrt{k}$$
+        $$\therefore k \leq W(k) \leq k_{1}*k + (\sqrt{k}-1)*\sqrt{k}$$
+        $$\therefore \exists k_{2_k} = \sqrt{k}-1, k \leq W(k) \leq k_{1}*k + k_{2_k}*\sqrt{k} \tag{9}$$
+        6. With Induction, we proved:
+        $$\exists k_{2_n} = \sqrt{n}-1, n \leq W(n) \leq k_{1}*n + k_{2_n}*\sqrt{n} \tag{10}$$
+        $$\because n \leq W(n)$$
+        $$\therefore n \in \mathcal {O}(W(n)) \tag{11}$$
+        $$\because W(n) \leq k_{1}*n + k_{2_n}*\sqrt{n} \therefore W(n)\in \mathcal{O}(2n-\sqrt{n})$$
+        $$\therefore W(n) \in \mathcal{O}(n) \tag{12}$$
+        $$\because (11), (12)$$
+        $$\therefore W(n) = \Theta(n) \cdots\cdots \square$$
