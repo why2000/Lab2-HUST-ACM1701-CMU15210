@@ -210,7 +210,7 @@
         $$T(n) = \Theta(n*{\frac{1*{(1-{(\frac{3}{2})^{h-1} })} }{1-{\frac{3}{2} } } }) = \Theta(n*2*{((\frac{3}{2})^{h-1}-1) })$$
         $$\therefore T(n) = \Theta(n*{(\frac{3}{2})^{\log_{2}{n} } }) = \Theta(n*\frac{3^{\log_{2}{n} } }{2^{\log_{2}{n} } }) = \Theta(3^{log_{2}{n} })$$
         $$\therefore T(n) = \Theta(3^{\frac{log_{3}{n} }{log_{3}{2} } }) = \Theta(n^{\frac{1}{\log_{3}{2} } }) = \Theta(n^{\log_{2}{3} })$$
-    2. $T(n) = \sqrt{n}*{\log_{4}{n} }$. Using Tree Method.
+    2. $T(n) = \Theta(\sqrt{n}*{\log_{4}{n} })$. Using Tree Method.
         1. Similar to the last problem, we have the height.
         $$h = \log_{4}{n} \tag{3}$$
         2. Each floor $i$ has $2^{i}*\Theta(\sqrt{\frac{n}{4^{i} } }) = \Theta(\sqrt{n})$, sum up all floors:
