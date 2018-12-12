@@ -20,7 +20,8 @@ struct
       val negated = reversed ++ singleton(ONE)
       (* add x and negative y. throw the sign bit *)
       (* add between length n and length n+1, with W = O(2n+1), S = O(lg(2n+1)) *)
-      val result = tabulate (fn i => nth (x ++ negated) i) (length x)
+      val mid = x ++ negated
+      val result = tabulate (fn i => nth mid i) (length x)
       (* check for ZERO *)
       fun bitcheck(x, y) = if x = ZERO andalso y = ZERO then ZERO else ONE
 
